@@ -18,8 +18,8 @@ public class Teacher {
     private Long id;
     private String name;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "teacher")
-    @ToString.Exclude
-    private List<Course> courseList;
+//    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "teacher")
+//    @ToString.Exclude
+//    private List<Course> courseList;
 
 }

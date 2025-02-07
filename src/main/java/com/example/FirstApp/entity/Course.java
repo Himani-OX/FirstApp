@@ -1,19 +1,27 @@
 package com.example.FirstApp.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.NonNull;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@EntityListeners(AuditingEntityListener.class)
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Course {
 
     @Id
@@ -23,13 +31,23 @@ public class Course {
 
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "course_id")
     private Long courseId;
+
+    @Column(nullable = false)
     private String courseName;
-    private LocalDate addedDate;
 
-    @OneToOne(mappedBy = "course")
-    private CourseMaterial courseMaterial;
+    @Column(nullable = false)
+    private String courseDescription;
 
-    @ManyToMany
+    @CreatedDate
+    @Column(updatable = false)
+    private LocalDateTime addedDateTime;
+
+    @LastModifiedDate
+    private LocalDateTime updatedDateTime;
+
+
+    //baki
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "student_course",
             joinColumns = @JoinColumn(name = "courseId"),
@@ -37,10 +55,13 @@ public class Course {
     )
     private List<Student> studentList;
 
+    //    @OneToOne(mappedBy = "course")
+//    private CourseMaterial courseMaterial;
 
-    @ManyToOne
-    @JoinColumn(name = "teacher_id", referencedColumnName = "id")
-    //many side will have FK
-    private Teacher teacher;
+//
+//    @ManyToOne
+//    @JoinColumn(name = "teacher_id", referencedColumnName = "id")
+//    //many side will have FK
+//    private Teacher teacher;
 
 }

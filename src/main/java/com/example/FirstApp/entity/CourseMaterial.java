@@ -16,10 +16,10 @@ public class CourseMaterial {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String url;
-
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "course_id", referencedColumnName = "courseId")
-    private Course course;
+//
+//    @OneToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "course_id", referencedColumnName = "courseId")
+//    private Course course;
 
 
 }

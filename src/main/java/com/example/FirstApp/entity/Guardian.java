@@ -14,7 +14,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Embeddable  //don't create table for this entity
-
 public class Guardian {
     private String name;
     private String email;
