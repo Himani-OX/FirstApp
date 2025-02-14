@@ -12,6 +12,7 @@ import lombok.ToString;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -31,7 +32,7 @@ public class User {
     private String role;
 
     @CreatedDate
-    private LocalDateTime addedDateTime;
+    private LocalDate addedDateTime;
 
     @OneToMany(cascade = CascadeType.MERGE, mappedBy = "addedBY", fetch = FetchType.LAZY)
 //    @JsonBackReference

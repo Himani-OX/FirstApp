@@ -2,15 +2,20 @@ package com.example.FirstApp.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import jakarta.persistence.*;
 import lombok.*;
 import org.apache.logging.log4j.util.Lazy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.data.repository.cdi.Eager;
 
+import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 //@Table => used for defining table name is DB, for defining unique constraints
 @Entity
@@ -68,8 +73,15 @@ public class Student {
     )
     private Guardian guardian;
 
-
-    //baki
-    @ManyToMany(mappedBy = "studentList", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @ManyToMany
+    @JoinTable(
+            name = "student_course",
+            joinColumns = @JoinColumn(name = "courseId"), //replace names
+            inverseJoinColumns = @JoinColumn(name = "studentId")
+    )
     private List<Course> courseList;
+
+
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "student", orphanRemoval = true) //removes from DB
+    private List<Address> address;
 }

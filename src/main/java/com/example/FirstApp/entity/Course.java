@@ -12,16 +12,19 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "studentList"})
 public class Course {
 
     @Id
@@ -45,15 +48,14 @@ public class Course {
     @LastModifiedDate
     private LocalDateTime updatedDateTime;
 
-
-    //baki
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "student_course",
-            joinColumns = @JoinColumn(name = "courseId"),
-            inverseJoinColumns = @JoinColumn(name = "studentId")
-    )
+    @ManyToMany(mappedBy = "courseList")
     private List<Student> studentList;
+
+    public Course(String s, String s1) {
+        courseName = s;
+        courseDescription = s1;
+    }
+
 
     //    @OneToOne(mappedBy = "course")
 //    private CourseMaterial courseMaterial;

@@ -2,6 +2,7 @@ package com.example.FirstApp.contoller;
 
 
 import com.example.FirstApp.DTO.CourseDTO;
+import com.example.FirstApp.entity.Address;
 import com.example.FirstApp.entity.Course;
 import com.example.FirstApp.entity.Student;
 import com.example.FirstApp.service.CourseService;
@@ -26,15 +27,16 @@ public class StudentController {
 
     @PostMapping({"/added-by/{user}", "/add"})
     public ResponseEntity<?> addStudent( @RequestBody Student student, @PathVariable(value = "user", required = false) Long id){
-        System.out.println("in");
         if(id == null)
             id = student.getAddedBY().getId();
         return studentService.addStudent(student, id);
     }
 
     @GetMapping
-    public ResponseEntity<?> getStudents(){
-        return new ResponseEntity<>(studentService.getAllStudents(), HttpStatus.ACCEPTED);
+    public ResponseEntity<?> getStudents(@RequestParam(value = "sortBy", required = false) String sortBy, @RequestParam(value = "order", required = false) String order,
+                                         @RequestParam(value = "filterBy", required=false) String filterBy){
+        System.out.println(filterBy);
+        return new ResponseEntity<>(studentService.getAllStudents(sortBy, order,filterBy), HttpStatus.ACCEPTED);
     }
 
     @GetMapping("/{id}")
@@ -53,5 +55,29 @@ public class StudentController {
         studentService.updateStudentById(id,student);
         return studentService.getStudentById(id);
     }
+
+    @PostMapping({"/{studentId}/add/course/{courseId}"})
+    public ResponseEntity<?> addStudentCourse(@PathVariable("studentId") Long studentId, @PathVariable("courseId") Long courseId){
+        return studentService.addStudentCourse(studentId,courseId);
+    }
+
+    @DeleteMapping({"/{studentId}/delete/course/{courseId}"})
+    public ResponseEntity<?> deleteStudentCourse(@PathVariable("studentId") Long studentId, @PathVariable("courseId") Long courseId){
+        return studentService.removeCourse(studentId, courseId);
+    }
+
+    @PostMapping("/{studentId}/add/address/")
+    public ResponseEntity<?> addStudentAddress(@PathVariable Long studentId, @RequestBody Address address){
+        return studentService.addStudentAddress(studentId,address);
+    }
+
+    @DeleteMapping("/{studentId}/delete/address/{addressId}")
+    public ResponseEntity<?> addStudentAddress(@PathVariable Long studentId, @PathVariable Long addressId){
+        return studentService.removeStudentAddress(studentId,addressId);
+    }
+
+
+
+
 
 }

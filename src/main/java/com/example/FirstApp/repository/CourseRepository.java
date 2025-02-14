@@ -15,7 +15,6 @@ import java.time.LocalDate;
 public interface CourseRepository extends JpaRepository<Course, Long> {
 
     @Modifying
-    @Transactional
     @Query(
             nativeQuery = true,
             value = "update student set added_date = ?2 where student_id = ?1"
