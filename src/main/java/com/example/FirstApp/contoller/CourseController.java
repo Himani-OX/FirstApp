@@ -33,7 +33,7 @@ public class CourseController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @PostMapping
+    @PostMapping("/add")
     public ResponseEntity<?> addCourse(@RequestBody Course course){
         return courseService.addCourse(course);
     }
