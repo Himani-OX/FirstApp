@@ -20,6 +20,8 @@ public class CourseController {
     @Autowired
     private CourseService courseService;
 
+
+
     @GetMapping
     public ResponseEntity<List<CourseDTO>> getCourses(@RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size){
         System.out.println(page + " " + size);
